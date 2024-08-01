@@ -1,0 +1,5 @@
+.env
+vendor/
+*.json
+*.csv
+*.txt
