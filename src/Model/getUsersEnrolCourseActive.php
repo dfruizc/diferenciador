@@ -1,6 +1,7 @@
 <?php
+use App\Model\db_channel\DbTelegram;
 require __DIR__ . '/../../vendor/autoload.php';
-//# Version 1.0 12 julio 2024
+# Version 1.0 12 julio 2024
 use App\Engine\loadEnv;
 use App\Model\enrolModel;
 
@@ -105,8 +106,8 @@ class getUsersEnrolCourse
             echo "Proceso finalizado, se validaron $c fichas\n";
             $dif_matriculados ="la cantidad de cursos con número de usuarios matriculados inferior al de base de datos es $conditionCounter";
             echo "$dif_matriculados\n";
-            if ($conditionCounter > 0) {            
-                $archivo = 'telegram.txt';
+            if ($conditionCounter >= 0) {            
+                $archivo = 'db_channel/telegram.txt';
                 $fileHandle = fopen($archivo, 'w');
                 // Verificar si se pudo abrir el archivo
                 if ($fileHandle) {
@@ -131,3 +132,4 @@ class getUsersEnrolCourse
 
 $a = new getUsersEnrolCourse();
 $a->getuserscourse();
+$instanciate = new DbTelegram();

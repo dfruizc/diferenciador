@@ -1,0 +1,44 @@
+#!/bin/bash
+echo 'entra'
+CONFIG_FILE="./db_channel.conf"
+
+# Verifica si el archivo de configuración existe
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Error: El archivo de configuración $CONFIG_FILE no existe."
+    exit 1
+fi
+
+# Carga el archivo de configuración
+. "$CONFIG_FILE"
+
+# Verifica si las variables de configuración están definidas
+REQUIRED_VARS=("TELEGRAM_API_URL" "CHAT_ID")
+for VAR in "${REQUIRED_VARS[@]}"; do
+    if [ -z "${!VAR}" ]; then
+        echo "Error: La variable de configuración $VAR no está definida."
+        exit 1
+    fi
+done
+
+# Obtiene el mensaje
+MESSAGE=$1
+
+# Compara el mensaje actual con el último registrado
+if [ "$MESSAGE" ]; then
+    # Envía el mensaje por Telegram
+    # response=$(curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" -d chat_id="$CHAT_ID" -d text="$MESSAGE")
+    response=$(curl -s -X POST "$TELEGRAM_API_URL" -d chat_id="$CHAT_ID" -d text="$MESSAGE")
+
+    if [ $? -ne 0 ]; then
+        echo "Error: No se pudo enviar el mensaje de Telegram."
+        exit 1
+    fi
+    # Verifica la respuesta de la API de Telegram
+    if ! echo "$response" | grep -q '"ok":true'; then
+        echo "Error: La API de Telegram devolvió un error."
+        exit 1
+    fi
+fi
+
+echo "Script ejecutado correctamente."
+exit 0

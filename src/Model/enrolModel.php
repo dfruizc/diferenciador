@@ -29,7 +29,7 @@ class enrolModel
             FROM \"INTEGRACION\".\"V_FICHA_CARACTERIZACION_B\" F
             JOIN \"TEMPORAL\".\"USUARIO_LMS_ENROLL_C\" E
             ON F.\"LMS_ID\" = E.\"courseid\"
-            WHERE F.\"FIC_FCH_INICIALIZACION\" > to_date('2024-06-01','YYYY-MM-DD') AND E.\"LMS_ESTADO\" = 2
+            WHERE F.\"FIC_FCH_INICIALIZACION\" > to_date('2024-07-30','YYYY-MM-DD') AND E.\"LMS_ESTADO\" = 2
             GROUP BY E.\"courseid\"
             ORDER BY E.\"courseid\"";
 
